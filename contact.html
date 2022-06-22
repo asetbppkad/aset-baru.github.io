@@ -162,6 +162,97 @@
                         </div>
                     </div>
                 </section>
+                
+                <!-- Form Contact -->
+                <section class="section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Berbicara Dengan Kami Di Sini 😉</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form class="form form-horizontal" name="pengaduan-aset">
+                                    <div class="form-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Nama</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group has-icon-left">
+                                                    <div class="position-relative">
+                                                        <input type="text" class="form-control" placeholder="Nama" id="first-name-icon" name="pengirim" required>
+                                                        <div class="form-control-icon">
+                                                            <i class="bi bi-person"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-md-4">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group has-icon-left">
+                                                    <div class="position-relative">
+                                                        <input type="email" class="form-control" placeholder="Email" id="first-name-icon">
+                                                        <div class="form-control-icon">
+                                                            <i class="bi bi-envelope"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="col-md-4">
+                                                <label>No. HP (WA)</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group has-icon-left">
+                                                    <div class="position-relative">
+                                                        <input type="phone" class="form-control" placeholder="No. WA Anda, Format ==> +628123456789" name="wa" required>
+                                                        <div class="form-control-icon">
+                                                            <i class="bi bi-phone"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Pesan</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group has-icon-left">
+                                                    <div class="position-relative">
+                                                        <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Pesan anda" rows="3" name="pesan" required></textarea>
+                                                        <div class="form-control-icon">
+                                                            <i class="bi bi-card-text"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Alert data berhasil -->
+                                            <div class="alert alert-success alert-dismissible fade show my-alertPesan d-none" id="btnAlert" role="alert">
+                                                <strong>Terima Kasih!</strong> Pesan telah terkirim.
+                                                <button type="button" class="btn-close " data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>
+                                            <!-- /Alert data berhasil -->
+                                            <div class="col-12 d-flex justify-content-end">
+                                                <button class="btn btn-light-primary btn-loadingPesan me-1 mb-1 d-none" type="button" disabled>
+                                                    <img src="assets/vendors/svg-loaders/audio.svg" class="me-4" style="width: 1.1rem" alt="audio">
+                                                    <span>Loading...</span>
+                                                </button>
+                                                <button type="submit" class="btn btn-primary btn-submitPesan me-1 mb-1"><i class="bi bi-chat-dots"></i> Submit</button>
+                                                <button type="button" class="btn btn-info btn-reloadPesan me-1 mb-1 d-none" onClick="document.location.reload(true)">
+                                                    <i class="bi bi-bag-plus"></i> 
+                                                    Masukkan Pesan Baru
+                                                </button>
+                                                <!-- <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /Contact -->
+                
                 <!-- Maps -->
                 <section class="section">
                     <div class="card">
@@ -219,6 +310,40 @@
     <script src="assets/js/bootstrap.bundle.min.js"></script>
 
     <script src="assets/js/main.js"></script>
+    
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxu3_3lmDKo7ZaiC-uIez7A6VDcHVG-T07cB2eA2YfRoC5syYUQGv943Q80aIOcAl1B/exec'
+        const form = document.forms['pengaduan-aset']
+        const btnSubmitPesan = document.querySelector('.btn-submitPesan')
+        const btnLoadingPesan = document.querySelector('.btn-loadingPesan')
+        const myAlertPesan = document.querySelector('.my-alertPesan')
+        const myReloadPesan = document.querySelector('.btn-reloadPesan')
+
+
+        form.addEventListener('submit', e => {
+            e.preventDefault()
+                // ketika tombol submit klik
+                // tampilkan tombol loading hilangkan tombol submit
+            btnLoadingPesan.classList.toggle('d-none')
+            btnSubmitPesan.classList.toggle('d-none')
+            fetch(scriptURL, {
+                    method: 'POST',
+                    body: new FormData(form)
+                })
+                .then(response => {
+                    // ketika succes tampilkan tombol submit hilangkan tombol loading
+                    btnLoadingPesan.classList.toggle('d-none')
+                    myReloadPesan.classList.toggle('d-none')
+                    myAlertPesan.classList.toggle('d-none')
+
+                    // reset data
+                    // form.reset()
+
+                    console.log('Success!', response)
+                })
+                .catch(error => console.error('Error!', error.message))
+        })
+    </script>
 </body>
 
 </html>
